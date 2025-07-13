@@ -20,14 +20,15 @@ pluginManagement {
 // Bill of Materials
 includeBuild("bom/pipeline-bom")
 
-// Pure Java Libraries
-// includeBuild("libraries/protobuf")
-// includeBuild("libraries/testing-commons")
+// Protocol Buffers (Resource JAR)
+includeBuild("protobuf")
 
-// Quarkus Libraries
-// includeBuild("quarkus-libraries/pipeline-api")
-// includeBuild("quarkus-libraries/pipeline-commons")
-// includeBuild("quarkus-libraries/consul-client")
+// Libraries
+// includeBuild("libraries/pipeline-api")
+// includeBuild("libraries/pipeline-commons")
+
+// includeBuild("libraries/consul-client")
+// includeBuild("libraries/testing-commons")
 
 // Extensions
 // includeBuild("extensions/grpc-stubs")
