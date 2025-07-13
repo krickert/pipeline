@@ -14,16 +14,16 @@ This document outlines the migration plan from the current multi-module structur
 | `/bom/server` | Server BOM | `/bom/pipeline-bom` | BOM | 🔴 Not Started | P0 | Merge into main BOM |
 | `/bom/cli` | CLI BOM | `/bom/pipeline-bom` | BOM | 🔴 Not Started | P0 | Merge into main BOM |
 | `/bom/module` | Module BOM | `/bom/pipeline-bom` | BOM | 🔴 Not Started | P0 | Merge into main BOM |
-| **Libraries (No Quarkus Dependencies)** |
-| `/commons/protobuf` | Protocol Buffers | `/libraries/protobuf` | Library | 🔴 Not Started | P0 | Pure resource packaging |
-| `/testing/util` | Testing Utilities | `/libraries/testing-commons` | Library | 🔴 Not Started | P0 | Pure Java test utilities |
-| **Quarkus Libraries (With CDI/Quarkus Dependencies)** |
-| `/commons/interface` | Common Interfaces | `/quarkus-libraries/pipeline-api` | Quarkus Library | 🔴 Not Started | P1 | Uses Jackson, validators |
-| `/commons/util` | Common Utilities | `/quarkus-libraries/pipeline-commons` | Quarkus Library | 🔴 Not Started | P1 | Uses Arc, Docker client |
-| `/commons/data-util` | Data Utilities | `/quarkus-libraries/data-util` | Quarkus Library | 🔴 Not Started | P2 | Check dependencies first |
-| `/engine/consul` | Consul Integration | `/quarkus-libraries/consul-client` | Quarkus Library | 🔴 Not Started | P1 | Client functionality only |
-| `/engine/validators` | Validators | `/quarkus-libraries/validators` | Quarkus Library | 🔴 Not Started | P2 | Validation services |
-| `/testing/server-util` | Server Test Utils | `/quarkus-libraries/testing-server-util` | Quarkus Library | 🔴 Not Started | P2 | Quarkus test helpers |
+| **Protocol Buffers (Resource JAR)** |
+| `/commons/protobuf` | Protocol Buffers | `/protobuf` | Resource JAR | 🔴 Not Started | P0 | Just .proto files as resources |
+| **Libraries (All Quarkus-based)** |
+| `/commons/interface` | Common Interfaces | `/libraries/pipeline-api` | Library | 🔴 Not Started | P1 | Uses Jackson, validators |
+| `/commons/util` | Common Utilities | `/libraries/pipeline-commons` | Library | 🔴 Not Started | P1 | Uses Arc, Docker client |
+| `/commons/data-util` | Data Utilities | `/libraries/data-util` | Library | 🔴 Not Started | P2 | Check dependencies first |
+| `/engine/consul` | Consul Integration | `/libraries/consul-client` | Library | 🔴 Not Started | P1 | Client functionality only |
+| `/engine/validators` | Validators | `/libraries/validators` | Library | 🔴 Not Started | P2 | Validation services |
+| `/testing/util` | Testing Utilities | `/libraries/testing-commons` | Library | 🔴 Not Started | P0 | Test utilities |
+| `/testing/server-util` | Server Test Utils | `/libraries/testing-server-util` | Library | 🔴 Not Started | P2 | Quarkus test helpers |
 | **Extensions (Runtime/Deployment Split)** |
 | `/extensions/grpc-stubs/*` | gRPC Stubs Extension | `/extensions/grpc-stubs/*` | Extension | 🔴 Not Started | P1 | Move as-is |
 | `/extensions/dynamic-grpc/*` | Dynamic gRPC Extension | `/extensions/dynamic-grpc/*` | Extension | 🔴 Not Started | P1 | Fix implementation |
@@ -78,20 +78,19 @@ graph TB
             BOM --> PipelineBOM[pipeline-bom/]
         end
         
-        subgraph "Pure Java Libraries"
-            Root --> Libraries[libraries/]
-            Libraries --> Protobuf[protobuf/]
-            Libraries --> TestingCommons[testing-commons/]
+        subgraph "Protocol Buffers"
+            Root --> Protobuf[protobuf/]
         end
         
-        subgraph "Quarkus Libraries"
-            Root --> QuarkusLibs[quarkus-libraries/]
-            QuarkusLibs --> PipelineAPI[pipeline-api/]
-            QuarkusLibs --> PipelineCommons[pipeline-commons/]
-            QuarkusLibs --> ConsulClient[consul-client/]
-            QuarkusLibs --> DataUtil[data-util/]
-            QuarkusLibs --> Validators[validators/]
-            QuarkusLibs --> TestingServerUtil[testing-server-util/]
+        subgraph "Libraries (All Quarkus-based)"
+            Root --> Libraries[libraries/]
+            Libraries --> PipelineAPI[pipeline-api/]
+            Libraries --> PipelineCommons[pipeline-commons/]
+            Libraries --> ConsulClient[consul-client/]
+            Libraries --> DataUtil[data-util/]
+            Libraries --> Validators[validators/]
+            Libraries --> TestingCommons[testing-commons/]
+            Libraries --> TestingServerUtil[testing-server-util/]
         end
         
         subgraph "Quarkus Extensions"
@@ -154,26 +153,26 @@ graph TB
     DynamicGrpc -.-> ConsulClient
     DynamicGrpc -.-> GrpcStubs
     
-    QuarkusLibs -.-> Libraries
     Extensions -.-> Libraries
-    Applications -.-> QuarkusLibs
+    Applications -.-> Libraries
     Applications -.-> Extensions
+    Libraries -.-> Protobuf
 ```
 
 ## Migration Phases
 
 ### Phase 1: Foundation (Week 1)
-1. Create base directory structure
-2. Set up root build files with Gradle Kotlin DSL
-3. Create consolidated BOM (`pipeline-bom`)
-4. Configure version catalog
-5. Migrate pure Java libraries (protobuf, testing-commons)
+1. Create base directory structure ✅
+2. Set up root build files with Gradle Kotlin DSL ✅
+3. Create consolidated BOM (`pipeline-bom`) ✅
+4. Configure version catalog ✅
+5. Create protobuf resource JAR
 
-### Phase 2: Quarkus Libraries (Week 1-2)
+### Phase 2: Libraries (Week 1-2)
 1. Migrate pipeline-api (from commons/interface)
 2. Migrate pipeline-commons (from commons/util)
 3. Create consul-client library (from engine/consul)
-4. Migrate other Quarkus-dependent libraries
+4. Migrate testing-commons and other libraries
 
 ### Phase 3: Extensions (Week 2-3)
 1. Migrate grpc-stubs extension
