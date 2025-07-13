@@ -4,7 +4,7 @@ plugins {
 }
 
 allprojects {
-    group = "io.quarkus.pipeline"
+    group = "com.pipeline"
     version = "1.0.0-SNAPSHOT"
 }
 

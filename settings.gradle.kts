@@ -2,9 +2,9 @@ rootProject.name = "pipeline-project"
 
 pluginManagement {
     repositories {
+        mavenLocal()
         mavenCentral()
         gradlePluginPortal()
-        mavenLocal()
     }
     
     val quarkusPluginVersion: String by settings
@@ -12,6 +12,7 @@ pluginManagement {
     
     plugins {
         id(quarkusPluginId) version quarkusPluginVersion
+        id("io.quarkus.extension") version quarkusPluginVersion
     }
 }
 
@@ -24,14 +25,14 @@ includeBuild("bom/pipeline-bom")
 includeBuild("protobuf")
 
 // Libraries
-// includeBuild("libraries/pipeline-api")
-// includeBuild("libraries/pipeline-commons")
+includeBuild("libraries/pipeline-api")
+includeBuild("libraries/pipeline-commons")
 
 // includeBuild("libraries/consul-client")
 // includeBuild("libraries/testing-commons")
 
 // Extensions
-// includeBuild("extensions/grpc-stubs")
+includeBuild("extensions/grpc-stubs")
 // includeBuild("extensions/dynamic-grpc")
 // includeBuild("extensions/dev-services/consul")
 

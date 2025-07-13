@@ -3,7 +3,7 @@ plugins {
     `maven-publish`
 }
 
-group = "io.quarkus.pipeline"
+group = "com.pipeline"
 version = "1.0.0-SNAPSHOT"
 
 description = "Protocol Buffer definitions for Pipeline project"
