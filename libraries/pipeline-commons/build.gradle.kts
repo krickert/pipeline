@@ -37,9 +37,9 @@ dependencies {
     implementation("org.apache.commons:commons-lang3")
 
     // gRPC and Protobuf
-    implementation("io.grpc:grpc-testing")
-    implementation("com.google.protobuf:protobuf-java:3.25.3")
-    implementation("com.google.protobuf:protobuf-java-util:3.25.3")
+    //implementation("io.grpc:grpc-testing")
+    implementation("com.google.protobuf:protobuf-java")
+    implementation("com.google.protobuf:protobuf-java-util")
 
     // Testing
     testImplementation("io.quarkus:quarkus-junit5")

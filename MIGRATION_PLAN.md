@@ -25,7 +25,7 @@ This document outlines the migration plan from the current multi-module structur
 | `/testing/util` | Testing Utilities | `/libraries/testing-commons` | Library | 🔴 Not Started | P0 | Test utilities |
 | `/testing/server-util` | Server Test Utils | `/libraries/testing-server-util` | Library | 🔴 Not Started | P2 | Quarkus test helpers |
 | **Extensions (Runtime/Deployment Split)** |
-| `/extensions/grpc-stubs/*` | gRPC Stubs Extension | `/extensions/grpc-stubs/*` | Extension | 🔴 Not Started | P1 | Move as-is |
+| `/extensions/grpc-stubs/*` | gRPC Stubs Extension | `/extensions/grpc-stubs/*` | Extension | 🟢 Completed | P1 | Move as-is |
 | `/extensions/dynamic-grpc/*` | Dynamic gRPC Extension | `/extensions/dynamic-grpc/*` | Extension | 🔴 Not Started | P1 | Fix implementation |
 | `/extensions/dev-services/consul/*` | Consul Dev Services | `/extensions/dev-services/consul/*` | Extension | 🔴 Not Started | P1 | Move as-is |
 | `/extensions/pipeline-dev-ui/*` | Pipeline Dev UI | `/extensions/pipeline-dev-ui/*` | Extension | 🔴 Not Started | P3 | Move as-is |
