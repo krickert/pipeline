@@ -1,4 +1,10 @@
 /docs
-.idea
-build
+.idea/
+build/
 **.log
+.gradle/
+.quarkus/
+*.class
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+.DS_Store
