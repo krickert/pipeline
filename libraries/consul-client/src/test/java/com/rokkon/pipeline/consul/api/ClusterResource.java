@@ -1,8 +1,8 @@
 package com.rokkon.pipeline.consul.api;
 
 import com.rokkon.pipeline.config.service.ClusterService;
-import com.rokkon.pipeline.validation.ValidationResult;
-import com.rokkon.pipeline.validation.impl.ValidationResultFactory;
+import com.rokkon.pipeline.api.validation.ValidationResult;
+import com.rokkon.pipeline.commons.validation.ValidationResultFactory;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;

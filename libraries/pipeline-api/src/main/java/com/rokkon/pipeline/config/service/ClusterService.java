@@ -2,7 +2,7 @@ package com.rokkon.pipeline.config.service;
 
 import com.rokkon.pipeline.config.model.Cluster;
 import com.rokkon.pipeline.config.model.ClusterMetadata;
-import com.rokkon.pipeline.validation.ValidationResult;
+import com.rokkon.pipeline.api.validation.ValidationResult;
 import io.smallrye.mutiny.Uni;
 
 import java.util.List;

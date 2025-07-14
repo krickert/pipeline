@@ -4,7 +4,7 @@ import com.rokkon.pipeline.config.model.PipelineClusterConfig;
 import com.rokkon.pipeline.config.model.PipelineGraphConfig;
 import com.rokkon.pipeline.config.model.PipelineConfig;
 import com.rokkon.pipeline.engine.validation.validators.InterPipelineLoopValidator;
-import com.rokkon.pipeline.validation.ValidationResult;
+import com.rokkon.pipeline.api.validation.ValidationResult;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;

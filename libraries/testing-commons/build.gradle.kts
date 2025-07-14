@@ -33,4 +33,7 @@ dependencies {
     // Quarkus test support
     implementation("io.quarkus:quarkus-junit5")
     testImplementation("io.quarkus:quarkus-junit5")
+    
+    // Consul DevServices for @ConsulIntegrationTest
+    implementation(project(":extensions:consul-devservices:runtime"))
 }

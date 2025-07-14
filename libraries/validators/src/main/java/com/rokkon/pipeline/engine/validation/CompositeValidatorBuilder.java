@@ -1,11 +1,10 @@
 package com.rokkon.pipeline.engine.validation;
 
-import com.rokkon.pipeline.validation.impl.EmptyValidationResult;
-import com.rokkon.pipeline.validation.impl.ValidationResultFactory;
-import com.rokkon.pipeline.validation.ConfigValidatable;
-import com.rokkon.pipeline.validation.ConfigValidator;
-import com.rokkon.pipeline.validation.ValidationResult;
-import com.rokkon.pipeline.engine.validation.CompositeValidator;
+import com.rokkon.pipeline.commons.validation.EmptyValidationResult;
+import com.rokkon.pipeline.commons.validation.ValidationResultFactory;
+import com.rokkon.pipeline.api.validation.ConfigValidatable;
+import com.rokkon.pipeline.api.validation.ConfigValidator;
+import com.rokkon.pipeline.api.validation.ValidationResult;
 
 import java.util.ArrayList;
 import java.util.Arrays;

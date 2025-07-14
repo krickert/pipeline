@@ -1,5 +1,7 @@
 package com.rokkon.pipeline.consul.service;
 
+import com.rokkon.pipeline.api.validation.ValidationResult;
+import com.rokkon.pipeline.commons.validation.ValidationResultFactory;
 import com.rokkon.pipeline.config.service.PipelineDefinitionService;
 import com.rokkon.pipeline.config.service.PipelineInstanceService;
 import com.rokkon.pipeline.consul.test.ConsulIntegrationTest;
@@ -7,7 +9,7 @@ import com.rokkon.pipeline.consul.test.ConsulTest;
 import com.rokkon.pipeline.consul.test.ConsulTestContext;
 import com.rokkon.pipeline.engine.validation.CompositeValidator;
 import com.rokkon.pipeline.engine.validation.validators.*;
-import com.rokkon.pipeline.validation.PipelineConfigValidatable;
+import com.rokkon.pipeline.api.validation.PipelineConfigValidatable;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -88,28 +90,28 @@ class PipelineDefinitionServiceIT extends PipelineDefinitionServiceTestBase {
         }
 
         @Override
-        public io.smallrye.mutiny.Uni<com.rokkon.pipeline.validation.ValidationResult> createInstance(String clusterName, com.rokkon.pipeline.config.model.CreateInstanceRequest request) {
-            return io.smallrye.mutiny.Uni.createFrom().item(com.rokkon.pipeline.validation.impl.ValidationResultFactory.success());
+        public io.smallrye.mutiny.Uni<ValidationResult> createInstance(String clusterName, com.rokkon.pipeline.config.model.CreateInstanceRequest request) {
+            return io.smallrye.mutiny.Uni.createFrom().item(ValidationResultFactory.success());
         }
 
         @Override
-        public io.smallrye.mutiny.Uni<com.rokkon.pipeline.validation.ValidationResult> updateInstance(String clusterName, String instanceId, com.rokkon.pipeline.config.model.PipelineInstance instance) {
-            return io.smallrye.mutiny.Uni.createFrom().item(com.rokkon.pipeline.validation.impl.ValidationResultFactory.success());
+        public io.smallrye.mutiny.Uni<ValidationResult> updateInstance(String clusterName, String instanceId, com.rokkon.pipeline.config.model.PipelineInstance instance) {
+            return io.smallrye.mutiny.Uni.createFrom().item(ValidationResultFactory.success());
         }
 
         @Override
-        public io.smallrye.mutiny.Uni<com.rokkon.pipeline.validation.ValidationResult> deleteInstance(String clusterName, String instanceId) {
-            return io.smallrye.mutiny.Uni.createFrom().item(com.rokkon.pipeline.validation.impl.ValidationResultFactory.success());
+        public io.smallrye.mutiny.Uni<ValidationResult> deleteInstance(String clusterName, String instanceId) {
+            return io.smallrye.mutiny.Uni.createFrom().item(ValidationResultFactory.success());
         }
 
         @Override
-        public io.smallrye.mutiny.Uni<com.rokkon.pipeline.validation.ValidationResult> startInstance(String clusterName, String instanceId) {
-            return io.smallrye.mutiny.Uni.createFrom().item(com.rokkon.pipeline.validation.impl.ValidationResultFactory.success());
+        public io.smallrye.mutiny.Uni<ValidationResult> startInstance(String clusterName, String instanceId) {
+            return io.smallrye.mutiny.Uni.createFrom().item(ValidationResultFactory.success());
         }
 
         @Override
-        public io.smallrye.mutiny.Uni<com.rokkon.pipeline.validation.ValidationResult> stopInstance(String clusterName, String instanceId) {
-            return io.smallrye.mutiny.Uni.createFrom().item(com.rokkon.pipeline.validation.impl.ValidationResultFactory.success());
+        public io.smallrye.mutiny.Uni<ValidationResult> stopInstance(String clusterName, String instanceId) {
+            return io.smallrye.mutiny.Uni.createFrom().item(ValidationResultFactory.success());
         }
 
         @Override

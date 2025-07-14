@@ -1,10 +1,10 @@
 package com.rokkon.pipeline.engine.validation;
 
 import com.rokkon.pipeline.engine.validation.validators.*;
-import com.rokkon.pipeline.validation.Composite;
-import com.rokkon.pipeline.validation.ConfigValidator;
-import com.rokkon.pipeline.validation.PipelineConfigValidatable;
-import com.rokkon.pipeline.validation.PipelineConfigValidator;
+import com.rokkon.pipeline.api.validation.Composite;
+import com.rokkon.pipeline.api.validation.ConfigValidator;
+import com.rokkon.pipeline.api.validation.PipelineConfigValidatable;
+import com.rokkon.pipeline.api.validation.PipelineConfigValidator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;

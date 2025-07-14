@@ -1,5 +1,9 @@
 package com.rokkon.pipeline.consul.service;
 
+import com.rokkon.pipeline.api.validation.ConfigValidatable;
+import com.rokkon.pipeline.api.validation.ValidationMode;
+import com.rokkon.pipeline.api.validation.ValidationResult;
+import com.rokkon.pipeline.commons.validation.EmptyValidationResult;
 import com.rokkon.pipeline.consul.test.ConsulIntegrationTest;
 import com.rokkon.pipeline.consul.test.ConsulTest;
 import com.rokkon.pipeline.consul.test.ConsulTestContext;
@@ -20,11 +24,11 @@ class PipelineInstanceServiceIT extends PipelineInstanceServiceTestBase {
         // Create a stub validator for the integration test
         var stubValidator = new com.rokkon.pipeline.engine.validation.CompositeValidator() {
             @Override
-            public com.rokkon.pipeline.validation.ValidationResult validate(
-                    com.rokkon.pipeline.validation.ConfigValidatable config, 
-                    com.rokkon.pipeline.validation.ValidationMode mode) {
+            public ValidationResult validate(
+                    ConfigValidatable config,
+                    ValidationMode mode) {
                 // Always return success for integration testing
-                return com.rokkon.pipeline.validation.impl.EmptyValidationResult.instance();
+                return EmptyValidationResult.instance();
             }
         };
         

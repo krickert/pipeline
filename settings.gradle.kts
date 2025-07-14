@@ -11,7 +11,7 @@ rootProject.name = "pipeline-project"
 
 include("bom:pipeline-bom")
 include("grpc-stubs")
-include("test-app")
+include("integration-test-app")
 include("libraries:data-util")
 include("libraries:pipeline-api")
 include("libraries:pipeline-commons")

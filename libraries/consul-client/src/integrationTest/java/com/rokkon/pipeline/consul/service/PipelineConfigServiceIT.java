@@ -7,7 +7,7 @@ import com.rokkon.pipeline.consul.test.ConsulTest;
 import com.rokkon.pipeline.consul.test.ConsulTestContext;
 import com.rokkon.pipeline.engine.validation.CompositeValidator;
 import com.rokkon.pipeline.engine.validation.validators.*;
-import com.rokkon.pipeline.validation.PipelineConfigValidatable;
+import com.rokkon.pipeline.api.validation.PipelineConfigValidatable;
 import org.junit.jupiter.api.BeforeEach;
 
 /**

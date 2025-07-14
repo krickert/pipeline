@@ -1,13 +1,12 @@
 package com.rokkon.pipeline.validation.validators;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rokkon.pipeline.config.model.PipelineConfig;
 import com.rokkon.pipeline.config.model.PipelineStepConfig;
 import com.rokkon.pipeline.config.model.StepType;
 import com.rokkon.pipeline.config.model.TransportType;
 import com.rokkon.pipeline.config.model.GrpcTransportConfig;
-import com.rokkon.pipeline.engine.validation.validators.SchemaValidator;import com.rokkon.pipeline.validation.ValidationMode;
-import com.rokkon.pipeline.validation.ValidationResult;
+import com.rokkon.pipeline.engine.validation.validators.SchemaValidator;import com.rokkon.pipeline.api.validation.ValidationMode;
+import com.rokkon.pipeline.api.validation.ValidationResult;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;

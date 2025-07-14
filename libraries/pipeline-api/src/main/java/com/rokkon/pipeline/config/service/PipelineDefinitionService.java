@@ -2,8 +2,8 @@ package com.rokkon.pipeline.config.service;
 
 import com.rokkon.pipeline.config.model.PipelineConfig;
 import com.rokkon.pipeline.config.model.PipelineDefinitionSummary;
-import com.rokkon.pipeline.validation.ValidationResult;
-import com.rokkon.pipeline.validation.ValidationMode;
+import com.rokkon.pipeline.api.validation.ValidationResult;
+import com.rokkon.pipeline.api.validation.ValidationMode;
 import io.smallrye.mutiny.Uni;
 
 import java.util.List;

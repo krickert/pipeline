@@ -19,6 +19,7 @@ public class UnifiedTestProfile implements QuarkusTestProfile {
     // Thread-local storage for test-specific configuration
     private static final ThreadLocal<TestConfiguration> testConfig = new ThreadLocal<>();
     
+    
     /**
      * Configuration options for tests
      */

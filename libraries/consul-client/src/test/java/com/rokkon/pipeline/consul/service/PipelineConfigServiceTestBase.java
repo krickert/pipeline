@@ -3,7 +3,7 @@ package com.rokkon.pipeline.consul.service;
 import com.rokkon.pipeline.config.model.*;
 import com.rokkon.pipeline.config.service.ClusterService;
 import com.rokkon.pipeline.config.service.PipelineConfigService;
-import com.rokkon.pipeline.validation.ValidationResult;
+import com.rokkon.pipeline.api.validation.ValidationResult;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import org.jboss.logging.Logger;

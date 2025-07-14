@@ -2,7 +2,7 @@ package com.rokkon.pipeline.config.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.rokkon.pipeline.validation.PipelineConfigValidatable;
+import com.rokkon.pipeline.api.validation.PipelineConfigValidatable;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.Collections;

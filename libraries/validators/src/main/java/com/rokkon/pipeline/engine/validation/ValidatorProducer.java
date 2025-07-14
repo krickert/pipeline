@@ -2,7 +2,7 @@ package com.rokkon.pipeline.engine.validation;
 
 import com.rokkon.pipeline.config.model.PipelineConfig;
 import com.rokkon.pipeline.config.model.PipelineClusterConfig;
-import com.rokkon.pipeline.validation.ConfigValidator;
+import com.rokkon.pipeline.api.validation.ConfigValidator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.Produces;

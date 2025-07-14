@@ -8,16 +8,28 @@ repositories {
 }
 
 dependencies {
-    implementation(platform("io.quarkus.platform:quarkus-bom:3.24.3"))
+    implementation(platform(project(":bom:pipeline-bom")))
     
     // Our extension
     implementation(project(":extensions:consul-devservices:runtime"))
     implementation(project(":extensions:consul-devservices:deployment"))
     
+    // Quarkus dependencies
+    implementation("io.quarkus:quarkus-rest")
+    implementation("io.quarkus:quarkus-rest-jackson")
+    
+    // Consul extensions to recognize the configuration
+    implementation("io.quarkiverse.config:quarkus-config-consul")
+    implementation("io.quarkus:quarkus-smallrye-health")
+    
     // Test dependencies
-    implementation("io.quarkus:quarkus-junit5")
-    implementation("io.rest-assured:rest-assured")
+    testImplementation("io.quarkus:quarkus-junit5")
+    testImplementation("io.rest-assured:rest-assured")
+    
+    // Testcontainers for test resources
+    testImplementation("org.testcontainers:consul")
+    testImplementation("org.testcontainers:testcontainers")
     
     // For testing Consul functionality
-    implementation("io.smallrye.reactive:smallrye-mutiny-vertx-consul-client")
+    testImplementation("io.smallrye.reactive:smallrye-mutiny-vertx-consul-client")
 }

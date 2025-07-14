@@ -8,8 +8,8 @@ import com.rokkon.pipeline.config.service.PipelineConfigService;
 import com.rokkon.pipeline.config.model.ModuleWhitelistRequest;
 import com.rokkon.pipeline.config.model.ModuleWhitelistResponse;
 import com.rokkon.pipeline.engine.validation.CompositeValidator;
-import com.rokkon.pipeline.validation.ValidationResult;
-import com.rokkon.pipeline.validation.impl.ValidationResultFactory;
+import com.rokkon.pipeline.api.validation.ValidationResult;
+import com.rokkon.pipeline.commons.validation.ValidationResultFactory;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.ext.consul.ConsulClient;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -483,12 +483,23 @@ public class ModuleWhitelistServiceImpl implements ModuleWhitelistService {
                 try {
                     return objectMapper.readValue(keyValue.getValue(), PipelineClusterConfig.class);
                 } catch (Exception e) {
-                    LOG.error("Failed to parse cluster config for {}", clusterName, e);
+                    // This might be expected if cluster config is being initialized
+                    LOG.warn("Failed to parse cluster config for '{}'. This may be expected during initialization. Error: {}", 
+                            clusterName, e.getMessage());
+                    LOG.debug("Full error details for cluster config parsing", e);
                     return null;
                 }
             })
             .onFailure().recoverWithItem(error -> {
-                LOG.error("Failed to load cluster config from Consul", error);
+                // Connection errors are expected when Consul is not available
+                if (error.getCause() instanceof java.nio.channels.ClosedChannelException || 
+                    error.getCause() instanceof java.net.ConnectException ||
+                    error instanceof java.net.ConnectException) {
+                    LOG.debug("Connection error loading cluster config from Consul (Consul may not be available): {}", 
+                             error.getMessage());
+                } else {
+                    LOG.error("Failed to load cluster config from Consul", error);
+                }
                 return null;
             });
     }

@@ -5,7 +5,7 @@ import com.rokkon.pipeline.config.model.ModuleWhitelistRequest;
 import com.rokkon.pipeline.config.service.ClusterService;
 import com.rokkon.pipeline.config.service.ModuleWhitelistService;
 import com.rokkon.pipeline.config.service.PipelineConfigService;
-import com.rokkon.pipeline.validation.impl.ValidationResultFactory;
+import com.rokkon.pipeline.commons.validation.ValidationResultFactory;
 import io.smallrye.mutiny.Uni;
 import io.vertx.ext.consul.ConsulClientOptions;
 import io.vertx.ext.consul.ServiceOptions;

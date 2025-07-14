@@ -1,9 +1,9 @@
 package com.rokkon.pipeline.engine.validation;
 
-import com.rokkon.pipeline.validation.*;
-import com.rokkon.pipeline.validation.impl.ValidationResultFactory;
+import com.rokkon.pipeline.api.validation.*;
+import com.rokkon.pipeline.commons.validation.ValidationResultFactory;
 import org.jboss.logging.Logger;
-import com.rokkon.pipeline.validation.impl.EmptyValidationResult;
+import com.rokkon.pipeline.commons.validation.EmptyValidationResult;
 
 import java.util.ArrayList;
 import java.util.Comparator;

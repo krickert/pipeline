@@ -4,7 +4,7 @@ import com.rokkon.pipeline.config.model.PipelineConfig;
 import com.rokkon.pipeline.config.model.PipelineStepConfig;
 import com.rokkon.pipeline.config.model.StepType;
 import com.rokkon.pipeline.config.service.PipelineConfigService;
-import com.rokkon.pipeline.validation.ValidationResult;
+import com.rokkon.pipeline.api.validation.ValidationResult;
 import io.restassured.RestAssured;
 import org.jboss.logging.Logger;
 import org.junit.jupiter.api.BeforeEach;

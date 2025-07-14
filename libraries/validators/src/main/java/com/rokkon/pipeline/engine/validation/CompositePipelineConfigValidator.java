@@ -1,9 +1,9 @@
 package com.rokkon.pipeline.engine.validation;
 
-import com.rokkon.pipeline.validation.PipelineConfigValidator;
-import com.rokkon.pipeline.validation.PipelineConfigValidatable;
-import com.rokkon.pipeline.validation.ValidationResult;
-import com.rokkon.pipeline.validation.ConfigValidator;
+import com.rokkon.pipeline.api.validation.PipelineConfigValidator;
+import com.rokkon.pipeline.api.validation.PipelineConfigValidatable;
+import com.rokkon.pipeline.api.validation.ValidationResult;
+import com.rokkon.pipeline.api.validation.ConfigValidator;
 import java.util.List;
 
 /**

@@ -5,7 +5,7 @@ import com.rokkon.pipeline.config.model.PipelineConfig;
 import com.rokkon.pipeline.config.service.PipelineDefinitionService;
 import com.rokkon.pipeline.config.service.PipelineInstanceService;
 import com.rokkon.pipeline.testing.util.UnifiedTestProfile;
-import com.rokkon.pipeline.validation.impl.EmptyValidationResult;
+import com.rokkon.pipeline.commons.validation.EmptyValidationResult;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;

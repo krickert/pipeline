@@ -7,7 +7,7 @@ import com.rokkon.pipeline.config.model.TransportType;
 import com.rokkon.pipeline.config.model.StepType;
 import com.rokkon.pipeline.config.model.KafkaInputDefinition;
 import com.rokkon.pipeline.engine.validation.validators.NamingConventionValidator;
-import com.rokkon.pipeline.validation.ValidationResult;
+import com.rokkon.pipeline.api.validation.ValidationResult;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

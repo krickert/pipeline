@@ -2,7 +2,7 @@ package com.rokkon.pipeline.consul.service;
 
 import com.rokkon.pipeline.config.service.ClusterService;
 import com.rokkon.pipeline.config.service.ModuleWhitelistService;
-import com.rokkon.pipeline.validation.impl.EmptyValidationResult;
+import com.rokkon.pipeline.commons.validation.EmptyValidationResult;
 import com.rokkon.pipeline.testing.util.UnifiedTestProfile;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;

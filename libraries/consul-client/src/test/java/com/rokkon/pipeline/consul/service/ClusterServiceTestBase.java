@@ -1,7 +1,6 @@
 package com.rokkon.pipeline.consul.service;
 
 import com.rokkon.pipeline.config.service.ClusterService;
-import com.rokkon.pipeline.validation.ValidationResult;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

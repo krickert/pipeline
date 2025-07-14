@@ -3,7 +3,7 @@ package com.rokkon.pipeline.consul.api;
 import com.rokkon.pipeline.config.model.ClusterMetadata;
 import com.rokkon.pipeline.config.service.ClusterService;
 import com.rokkon.pipeline.testing.util.UnifiedTestProfile;
-import com.rokkon.pipeline.validation.impl.ValidationResultFactory;
+import com.rokkon.pipeline.commons.validation.ValidationResultFactory;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
 import io.quarkus.test.InjectMock;

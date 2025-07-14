@@ -5,8 +5,8 @@ import com.rokkon.pipeline.config.model.PipelineConfig;
 import com.rokkon.pipeline.config.service.ClusterService;
 import com.rokkon.pipeline.config.service.PipelineConfigService;
 import com.rokkon.pipeline.engine.validation.CompositeValidator;
-import com.rokkon.pipeline.validation.ValidationResult;
-import com.rokkon.pipeline.validation.impl.ValidationResultFactory;
+import com.rokkon.pipeline.api.validation.ValidationResult;
+import com.rokkon.pipeline.commons.validation.ValidationResultFactory;
 import io.quarkus.cache.CacheInvalidate;
 import io.quarkus.cache.CacheKey;
 import io.quarkus.cache.CacheResult;
@@ -52,8 +52,10 @@ public class PipelineConfigServiceImpl implements PipelineConfigService {
     @ConfigProperty(name = "consul.port", defaultValue = "8500")
     String consulPort;
 
+    // Create HttpClient with connection pooling configured to avoid stale connections
     private final HttpClient httpClient = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(10))
+            .version(HttpClient.Version.HTTP_1_1)  // HTTP/1.1 for better connection reuse
             .build();
 
     /**
@@ -166,7 +168,14 @@ public class PipelineConfigServiceImpl implements PipelineConfigService {
                     return Optional.empty();
                 }
             } catch (Exception e) {
-                LOG.error("Error retrieving pipeline '{}': {}", pipelineId, e.getMessage(), e);
+                // Connection errors are expected when Consul is not available
+                if (e.getCause() instanceof java.nio.channels.ClosedChannelException || 
+                    e.getCause() instanceof java.net.ConnectException) {
+                    LOG.debug("Connection error retrieving pipeline '{}' from Consul (Consul may not be available): {}", 
+                             pipelineId, e.getMessage());
+                } else {
+                    LOG.error("Error retrieving pipeline '{}': {}", pipelineId, e.getMessage(), e);
+                }
                 return Optional.empty();
             }
         })
@@ -200,7 +209,14 @@ public class PipelineConfigServiceImpl implements PipelineConfigService {
                     return new String[0];
                 }
             } catch (Exception e) {
-                LOG.error("Error listing pipelines: {}", e.getMessage(), e);
+                // Connection errors are expected when Consul is not available
+                if (e.getCause() instanceof java.nio.channels.ClosedChannelException || 
+                    e.getCause() instanceof java.net.ConnectException) {
+                    LOG.debug("Connection error listing pipelines from Consul (Consul may not be available): {}", 
+                             e.getMessage());
+                } else {
+                    LOG.error("Error listing pipelines: {}", e.getMessage(), e);
+                }
                 return new String[0];
             }
         })

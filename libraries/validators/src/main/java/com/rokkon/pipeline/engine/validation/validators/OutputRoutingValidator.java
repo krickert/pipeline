@@ -1,11 +1,11 @@
 package com.rokkon.pipeline.engine.validation.validators;
 
 import com.rokkon.pipeline.config.model.*;
-import com.rokkon.pipeline.validation.PipelineConfigValidator;
-import com.rokkon.pipeline.validation.PipelineConfigValidatable;
-import com.rokkon.pipeline.validation.ValidationMode;
-import com.rokkon.pipeline.validation.ValidationResult;
-import com.rokkon.pipeline.validation.impl.ValidationResultFactory;
+import com.rokkon.pipeline.api.validation.PipelineConfigValidator;
+import com.rokkon.pipeline.api.validation.PipelineConfigValidatable;
+import com.rokkon.pipeline.api.validation.ValidationMode;
+import com.rokkon.pipeline.api.validation.ValidationResult;
+import com.rokkon.pipeline.commons.validation.ValidationResultFactory;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;

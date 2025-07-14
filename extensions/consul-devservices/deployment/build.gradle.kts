@@ -1,6 +1,5 @@
 plugins {
     `java-library`
-    id("io.quarkus.extension")
 }
 
 repositories {
@@ -8,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    implementation(platform("io.quarkus.platform:quarkus-bom:3.24.3"))
+    implementation(platform(project(":bom:pipeline-bom")))
     
     // Runtime module
     implementation(project(":extensions:consul-devservices:runtime"))
@@ -17,6 +16,9 @@ dependencies {
     implementation("io.quarkus:quarkus-core-deployment")
     implementation("io.quarkus:quarkus-arc-deployment")
     implementation("io.quarkus:quarkus-devservices-deployment")
+    
+    // Consul configuration deployment - only for DevServices
+    compileOnly("io.quarkiverse.config:quarkus-config-consul-deployment:2.4.0")
     
     // Test dependencies
     testImplementation("io.quarkus:quarkus-junit5-internal")

@@ -6,7 +6,7 @@ import com.rokkon.pipeline.config.model.PipelineConfig;
 import com.rokkon.pipeline.config.model.PipelineStepConfig;
 // ProcessorInfo is an inner class of PipelineStepConfig
 import com.rokkon.pipeline.config.model.StepType;
-import com.rokkon.pipeline.validation.impl.ValidationResultFactory;
+import com.rokkon.pipeline.commons.validation.ValidationResultFactory;
 import com.rokkon.pipeline.config.service.ClusterService;
 import com.rokkon.pipeline.config.service.ModuleWhitelistService;
 import com.rokkon.pipeline.config.service.PipelineConfigService;
@@ -33,6 +33,10 @@ import static org.mockito.Mockito.when;
 /**
  * Unit test version of MethodicalBuildUpTest using mocks.
  * This tests the service interaction logic without requiring real Consul or containers.
+ * 
+ * For integration tests with real Consul, use:
+ * - @ConsulIntegrationTest (from testing-commons) for @QuarkusTest
+ * - @ConsulQuarkusIntegrationTest (from consul-devservices) for @QuarkusIntegrationTest
  */
 @QuarkusTest
 @TestProfile(UnifiedTestProfile.class)

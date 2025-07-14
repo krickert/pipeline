@@ -1,6 +1,5 @@
 package com.rokkon.pipeline.consul.config;
 
-import com.rokkon.pipeline.testing.util.UnifiedTestProfile;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
 import jakarta.inject.Inject;
@@ -24,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * This is a unit test that does not require Consul to be running.
  */
 @QuarkusTest
-@TestProfile(UnifiedTestProfile.class)
+@TestProfile(SimpleConfigTestProfile.class)
 @DisplayName("Configuration Property Tests")
 @Tag("config-tests") // Tag for running separately if needed
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

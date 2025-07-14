@@ -1,4 +1,4 @@
-/docs
+/quarkus_documentation
 .idea/
 build/
 **.log

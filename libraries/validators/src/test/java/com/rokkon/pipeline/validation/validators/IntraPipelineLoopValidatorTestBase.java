@@ -2,7 +2,7 @@ package com.rokkon.pipeline.validation.validators;
 
 import com.rokkon.pipeline.config.model.*;
 import com.rokkon.pipeline.engine.validation.validators.IntraPipelineLoopValidator;
-import com.rokkon.pipeline.validation.ValidationResult;
+import com.rokkon.pipeline.api.validation.ValidationResult;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;

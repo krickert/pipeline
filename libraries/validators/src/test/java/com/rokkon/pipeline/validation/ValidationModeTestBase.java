@@ -1,5 +1,7 @@
 package com.rokkon.pipeline.validation;
 
+import com.rokkon.pipeline.api.validation.ValidationMode;
+import com.rokkon.pipeline.api.validation.ValidationResult;
 import com.rokkon.pipeline.config.model.PipelineConfig;
 import com.rokkon.pipeline.engine.validation.CompositeValidator;
 import com.rokkon.pipeline.engine.validation.validators.ProcessorInfoValidator;
