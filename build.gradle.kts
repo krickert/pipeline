@@ -18,3 +18,17 @@ subprojects {
         options.compilerArgs.add("-parameters")
     }
 }
+
+allprojects {
+    configurations.all {
+        resolutionStrategy {
+            // Force Guava JRE variant
+            eachDependency {
+                if (requested.group == "com.google.guava" && requested.name == "guava") {
+                    useTarget("com.google.guava:guava:33.3.1-jre")
+                    because("Force JRE variant instead of Android variant")
+                }
+            }
+        }
+    }
+}

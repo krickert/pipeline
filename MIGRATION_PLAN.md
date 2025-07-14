@@ -9,13 +9,13 @@ This document outlines the migration plan from the current multi-module structur
 | Current Location | Module Name | New Location | Type | Status | Priority | Notes |
 |-----------------|-------------|--------------|------|--------|----------|-------|
 | **BOMs** |
-| `/bom/base` | Base BOM | `/bom/pipeline-bom` | BOM | 🔴 Not Started | P0 | Consolidate all BOMs |
-| `/bom/library` | Library BOM | `/bom/pipeline-bom` | BOM | 🔴 Not Started | P0 | Merge into main BOM |
-| `/bom/server` | Server BOM | `/bom/pipeline-bom` | BOM | 🔴 Not Started | P0 | Merge into main BOM |
-| `/bom/cli` | CLI BOM | `/bom/pipeline-bom` | BOM | 🔴 Not Started | P0 | Merge into main BOM |
-| `/bom/module` | Module BOM | `/bom/pipeline-bom` | BOM | 🔴 Not Started | P0 | Merge into main BOM |
+| `/bom/base` | Base BOM | `/bom/pipeline-bom` | BOM | 🟢 Completed | P0 | Consolidated into single BOM |
+| `/bom/library` | Library BOM | `/bom/pipeline-bom` | BOM | 🟢 Completed | P0 | Merged into main BOM |
+| `/bom/server` | Server BOM | `/bom/pipeline-bom` | BOM | 🟢 Completed | P0 | Merged into main BOM |
+| `/bom/cli` | CLI BOM | `/bom/pipeline-bom` | BOM | 🟢 Completed | P0 | Merged into main BOM |
+| `/bom/module` | Module BOM | `/bom/pipeline-bom` | BOM | 🟢 Completed | P0 | Merged into main BOM |
 | **Protocol Buffers (Resource JAR)** |
-| `/commons/protobuf` | Protocol Buffers | `/protobuf` | Resource JAR | 🔴 Not Started | P0 | Just .proto files as resources |
+| `/commons/protobuf` | Protocol Buffers | `/grpc-stubs` | Library | 🟢 Completed | P0 | Proto files are in grpc-stubs/src/main/proto |
 | **Libraries (All Quarkus-based)** |
 | `/commons/interface` | Common Interfaces | `/libraries/pipeline-api` | Library | 🟢 Completed | P1 | Uses Jackson, validators |
 | `/commons/util` | Common Utilities | `/libraries/pipeline-commons` | Library | 🟢 Completed | P1 | Uses Arc, Docker client |
@@ -23,9 +23,9 @@ This document outlines the migration plan from the current multi-module structur
 | `/engine/consul` | Consul Integration | `/libraries/consul-client` | Library | 🔴 Not Started | P1 | Client functionality only |
 | `/engine/validators` | Validators | `/libraries/validators` | Library | 🟢 Completed | P2 | Validation services |
 | `/testing/util` | Testing Utilities | `/libraries/testing-commons` | Library | 🟢 Completed | P0 | Test utilities |
-| `/testing/server-util` | Server Test Utils | `/libraries/testing-server-util` | Library | 🔴 Not Started | P2 | Quarkus test helpers |
+| `/testing/server-util` | Server Test Utils | `/libraries/testing-server-util` | Library | 🟢 Completed | P2 | Docker client injection fixed |
 | **Extensions (Runtime/Deployment Split)** |
-| `/extensions/grpc-stubs/*` | gRPC Stubs Extension | `/extensions/grpc-stubs/*` | Extension | 🟢 Completed | P1 | Move as-is |
+| `/extensions/grpc-stubs/*` | gRPC Stubs Extension | `/grpc-stubs` | Library | 🟢 Completed | P1 | Converted to library with proto files |
 | `/extensions/dynamic-grpc/*` | Dynamic gRPC Extension | `/extensions/dynamic-grpc/*` | Extension | 🔴 Not Started | P1 | Fix implementation |
 | `/extensions/dev-services/consul/*` | Consul Dev Services | `/extensions/dev-services/consul/*` | Extension | 🔴 Not Started | P1 | Move as-is |
 | `/extensions/pipeline-dev-ui/*` | Pipeline Dev UI | `/extensions/pipeline-dev-ui/*` | Extension | 🔴 Not Started | P3 | Move as-is |
@@ -159,43 +159,93 @@ graph TB
     Libraries -.-> Protobuf
 ```
 
+## Migration Progress Summary
+
+### Overall Progress: ~35% Complete
+
+| Phase | Status | Progress | Details |
+|-------|--------|----------|---------|
+| Phase 1: Foundation | 🟢 Complete | 100% | All BOMs consolidated, proto files in grpc-stubs |
+| Phase 2: Libraries | 🟡 In Progress | 85% | Only consul-client remaining |
+| Phase 3: Extensions | 🔴 Not Started | 25% | grpc-stubs done as library, 3 extensions remaining |
+| Phase 4: Core Application | 🔴 Not Started | 0% | Pipeline engine not migrated |
+| Phase 5: Modules & CLI | 🔴 Not Started | 0% | No modules or CLI apps migrated |
+| Phase 6: Testing & Cleanup | 🔴 Not Started | 0% | Integration tests pending |
+
+### Test Status
+- ✅ All migrated components have passing tests
+- ✅ No duplicate keys or conflicts
+- ✅ Build successful for all migrated modules
+- ✅ Docker client injection working in testing-server-util
+
+### Next Priority Actions
+1. **P1 - High Priority**:
+   - Migrate `consul-client` library (last remaining library)
+   - Start migrating `dynamic-grpc` extension
+   - Begin `pipeline-engine` application migration
+
+2. **P2 - Medium Priority**:
+   - Migrate consul dev services extension
+   - Start migrating core modules (echo, testing-harness)
+   - Set up integration test framework
+
 ## Migration Phases
 
-### Phase 1: Foundation (Week 1)
+### Phase 1: Foundation (Week 1) ✅ COMPLETED
 1. Create base directory structure ✅
 2. Set up root build files with Gradle Kotlin DSL ✅
 3. Create consolidated BOM (`pipeline-bom`) ✅
 4. Configure version catalog ✅
-5. Create protobuf resource JAR
+5. ~~Create protobuf resource JAR~~ Proto files in grpc-stubs ✅
 
-### Phase 2: Libraries (Week 1-2)
-1. Migrate pipeline-api (from commons/interface)
-2. Migrate pipeline-commons (from commons/util)
-3. Create consul-client library (from engine/consul)
-4. Migrate testing-commons and other libraries
+### Phase 2: Libraries (Week 1-2) 🟡 85% Complete
+1. Migrate pipeline-api (from commons/interface) ✅
+2. Migrate pipeline-commons (from commons/util) ✅
+3. Create consul-client library (from engine/consul) 🔴
+4. Migrate testing-commons and other libraries ✅
+   - testing-commons ✅
+   - data-util ✅
+   - validators ✅
+   - testing-server-util ✅
 
-### Phase 3: Extensions (Week 2-3)
-1. Migrate grpc-stubs extension
-2. Rebuild dynamic-grpc extension properly (not from engine/dynamic-grpc)
-3. Migrate consul dev services
-4. Migrate pipeline-dev-ui
+### Phase 3: Extensions (Week 2-3) 🔴 25% Complete
+1. ~~Migrate grpc-stubs extension~~ Converted to library ✅
+2. Rebuild dynamic-grpc extension properly (not from engine/dynamic-grpc) 🔴
+3. Migrate consul dev services 🔴
+4. Migrate pipeline-dev-ui 🔴
 
-### Phase 4: Core Application (Week 3-4)
-1. Migrate pipeline-engine (from engine/pipestream)
-2. Ensure all dependencies are properly wired
-3. Update configuration for new structure
+### Phase 4: Core Application (Week 3-4) 🔴 Not Started
+1. Migrate pipeline-engine (from engine/pipestream) 🔴
+2. Ensure all dependencies are properly wired 🔴
+3. Update configuration for new structure 🔴
 
-### Phase 5: Modules & CLI (Week 4-5)
-1. Migrate echo and testing-harness modules first
-2. Migrate remaining modules
-3. Migrate CLI applications
-4. Update module registration logic
+### Phase 5: Modules & CLI (Week 4-5) 🔴 Not Started
+1. Migrate echo and testing-harness modules first 🔴
+2. Migrate remaining modules 🔴
+3. Migrate CLI applications 🔴
+4. Update module registration logic 🔴
 
-### Phase 6: Testing & Cleanup (Week 5-6)
-1. Update integration tests
-2. Update Docker configurations
-3. Remove old/deprecated code
-4. Final testing and documentation
+### Phase 6: Testing & Cleanup (Week 5-6) 🔴 Not Started
+1. Update integration tests 🔴
+2. Update Docker configurations 🔴
+3. Remove old/deprecated code 🔴
+4. Final testing and documentation 🔴
+
+## Key Achievements So Far
+
+1. **Successful BOM Consolidation**: All 5 BOMs merged into single `pipeline-bom`
+2. **Clean Multi-Module Structure**: Converted from composite builds to regular subprojects
+3. **No Split Package Issues**: Resolved by excluding Google proto packages from grpc-stubs JAR
+4. **Docker Client Injection**: Created CDI producer for proper injection in testing-server-util
+5. **All Tests Passing**: No duplicate keys or conflicts in migrated modules
+6. **Proto Files Management**: Successfully integrated proto files into grpc-stubs library
+
+## Lessons Learned
+
+1. **grpc-stubs as Library**: Works better as a library than extension for this use case
+2. **Dependency Scoping**: Changed from `api` to `implementation` for better encapsulation
+3. **Docker-Java Version**: Must align with version managed by Quarkus BOM (3.4.2)
+4. **Build Structure**: Regular multi-module builds simpler than composite builds for this project
 
 ## Key Decisions
 

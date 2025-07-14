@@ -15,4 +15,9 @@ repositories {
 
 dependencies {
     api(platform("io.quarkus.platform:quarkus-bom:3.24.3"))
+    constraints {
+        api("com.google.guava:guava:33.3.1-jre") {
+            because("Force JRE variant for Quarkus compatibility")
+        }
+    }
 }
