@@ -30,7 +30,6 @@ dependencies {
 
 
     // Utilities
-    implementation(libs.guava)
     implementation("org.apache.commons:commons-lang3")
 
     // gRPC and Protobuf

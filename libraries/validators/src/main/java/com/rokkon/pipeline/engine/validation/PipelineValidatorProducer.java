@@ -55,7 +55,6 @@ public class PipelineValidatorProducer {
         validatorList.add(stepTypeValidator);
         
         // Create and return a concrete implementation
-        CompositePipelineConfigValidator validator = new CompositePipelineConfigValidator(validatorList);
-        return validator;
+        return new CompositePipelineConfigValidator(validatorList);
     }
 }

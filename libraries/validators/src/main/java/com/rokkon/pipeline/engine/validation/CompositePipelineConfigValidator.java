@@ -4,8 +4,6 @@ import com.rokkon.pipeline.validation.PipelineConfigValidator;
 import com.rokkon.pipeline.validation.PipelineConfigValidatable;
 import com.rokkon.pipeline.validation.ValidationResult;
 import com.rokkon.pipeline.validation.ConfigValidator;
-import com.rokkon.pipeline.engine.validation.CompositeValidator;
-
 import java.util.List;
 
 /**

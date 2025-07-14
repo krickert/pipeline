@@ -8,6 +8,7 @@ import com.rokkon.pipeline.validation.ValidationResult;
 import com.rokkon.pipeline.engine.validation.CompositeValidator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -66,10 +67,9 @@ public class CompositeValidatorBuilder<T extends ConfigValidatable> {
      * @param validators The validators to add
      * @return This builder instance for method chaining
      */
-    public CompositeValidatorBuilder<T> addValidators(ConfigValidator<T>... validators) {
-        for (ConfigValidator<T> validator : validators) {
-            this.validators.add(validator);
-        }
+    @SafeVarargs
+    public final CompositeValidatorBuilder<T> addValidators(ConfigValidator<T>... validators) {
+        this.validators.addAll(Arrays.asList(validators));
         return this;
     }
 

@@ -21,7 +21,7 @@ This document outlines the migration plan from the current multi-module structur
 | `/commons/util` | Common Utilities | `/libraries/pipeline-commons` | Library | 🔴 Not Started | P1 | Uses Arc, Docker client |
 | `/commons/data-util` | Data Utilities | `/libraries/data-util` | Library | 🔴 Not Started | P2 | Check dependencies first |
 | `/engine/consul` | Consul Integration | `/libraries/consul-client` | Library | 🔴 Not Started | P1 | Client functionality only |
-| `/engine/validators` | Validators | `/libraries/validators` | Library | 🔴 Not Started | P2 | Validation services |
+| `/engine/validators` | Validators | `/libraries/validators` | Library | 🟢 Completed | P2 | Validation services |
 | `/testing/util` | Testing Utilities | `/libraries/testing-commons` | Library | 🔴 Not Started | P0 | Test utilities |
 | `/testing/server-util` | Server Test Utils | `/libraries/testing-server-util` | Library | 🔴 Not Started | P2 | Quarkus test helpers |
 | **Extensions (Runtime/Deployment Split)** |
