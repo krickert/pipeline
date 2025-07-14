@@ -10,6 +10,12 @@ allprojects {
         mavenCentral()
         mavenLocal()
     }
+
+    configurations.all {
+        resolutionStrategy {
+            force(libs.guava)
+        }
+    }
 }
 
 subprojects {

@@ -21,16 +21,13 @@ dependencies {
     testImplementation(platform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
 
     // Our dependencies
-    implementation("com.pipeline:pipeline-api:1.0.0-SNAPSHOT")
+    implementation(project(":libraries:pipeline-api"))
     implementation(project(":grpc-stubs"))
 
     // Quarkus dependencies
     implementation("io.quarkus:quarkus-arc")
     implementation("io.quarkus:quarkus-jackson")
 
-    // Docker client
-    implementation("com.github.docker-java:docker-java-core")
-    implementation("com.github.docker-java:docker-java-transport-httpclient5")
 
     // Utilities
     implementation(libs.guava)
@@ -58,6 +55,10 @@ java {
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
     options.compilerArgs.add("-parameters")
+}
+
+tasks.named("compileJava") {
+    dependsOn(tasks.named("compileQuarkusGeneratedSourcesJava"))
 }
 
 tasks.withType<Test> {

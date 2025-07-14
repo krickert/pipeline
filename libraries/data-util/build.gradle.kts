@@ -7,6 +7,7 @@ group = "com.pipeline"
 version = "1.0.0-SNAPSHOT"
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -24,6 +25,10 @@ dependencies {
     // Testing
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation(libs.assertj)
+}
+
+tasks.named("compileJava") {
+    dependsOn(tasks.named("compileQuarkusGeneratedSourcesJava"))
 }
 
 tasks.named("quarkusGenerateCode") {

@@ -21,3 +21,8 @@ dependencies {
     testImplementation(libs.assertj)
     testImplementation("io.quarkus:quarkus-junit5")
 }
+
+tasks.named("compileJava") {
+    dependsOn(tasks.named("compileQuarkusGeneratedSourcesJava"))
+}
+

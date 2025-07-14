@@ -53,6 +53,10 @@ tasks.withType<JavaCompile> {
     options.compilerArgs.add("-parameters")
 }
 
+tasks.named("compileJava") {
+    dependsOn(tasks.named("compileQuarkusGeneratedSourcesJava"))
+}
+
 tasks.withType<Test> {
     systemProperty("java.util.logging.manager", "org.jboss.logmanager.LogManager")
 }
