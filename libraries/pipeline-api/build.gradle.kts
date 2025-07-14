@@ -19,9 +19,10 @@ dependencies {
     // Quarkus BOM (applies to all configurations)
     implementation(platform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
     testImplementation(platform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
-    
+
+    implementation(project(":grpc-stubs"))
     implementation("io.quarkus:quarkus-smallrye-stork")
-    
+
     // Quarkus dependencies
     implementation("io.quarkus:quarkus-jackson")
     implementation("io.quarkus:quarkus-config-yaml")
@@ -29,18 +30,17 @@ dependencies {
     implementation("io.quarkus:quarkus-smallrye-openapi")
     implementation("io.quarkus:quarkus-cache")
     implementation("io.quarkus:quarkus-mutiny")
-    
+
     // Swagger annotations - included with quarkus-smallrye-openapi
-    
+
     // Our protobuf definitions
-    implementation("com.pipeline:protobuf:1.0.0-SNAPSHOT")
-    
+    implementation(project(":grpc-stubs"))
+
     // Testing
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("org.assertj:assertj-core:3.26.3")
-    testImplementation("io.rest-assured:rest-assured")
-    testImplementation("com.google.jimfs:jimfs:1.3.0")
+    testImplementation(libs.assertj)
+    testImplementation(libs.jimfs)
 }
 
 java {
@@ -56,4 +56,3 @@ tasks.withType<JavaCompile> {
 tasks.withType<Test> {
     systemProperty("java.util.logging.manager", "org.jboss.logmanager.LogManager")
 }
-

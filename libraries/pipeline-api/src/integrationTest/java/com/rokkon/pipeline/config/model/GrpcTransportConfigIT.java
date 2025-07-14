@@ -6,20 +6,13 @@ import io.quarkus.test.junit.QuarkusIntegrationTest;
 /**
  * Integration tests for GrpcTransportConfig.
  * 
- * This test uses a default ObjectMapper for integration testing.
+ * This test uses the shared ObjectMapper from MapperFactory.
  */
 @QuarkusIntegrationTest
 public class GrpcTransportConfigIT extends GrpcTransportConfigTestBase {
 
-    private final ObjectMapper objectMapper;
-    
-    public GrpcTransportConfigIT() {
-        // For integration tests, use a default ObjectMapper
-        this.objectMapper = new ObjectMapper();
-    }
-    
     @Override
     protected ObjectMapper getObjectMapper() {
-        return objectMapper;
+        return MapperFactory.getObjectMapper();
     }
 }

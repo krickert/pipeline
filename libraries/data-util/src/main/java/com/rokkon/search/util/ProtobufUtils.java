@@ -1,30 +1,23 @@
-package com.pipeline.extension.grpc.stubs.util;
+package com.rokkon.search.util;
 
 import com.google.protobuf.ListValue;
 import com.google.protobuf.Message;
-import com.google.protobuf.Parser;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.Value;
+import com.rokkon.search.model.PipeDoc;
+import com.rokkon.search.model.PipeStream;
 import jakarta.inject.Singleton;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
-import io.quarkus.runtime.util.ClassPathUtils;
 
 /**
  * Utility class for working with protobuf messages in the Rokkon testing framework.

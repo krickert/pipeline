@@ -9,7 +9,9 @@ pluginManagement {
 
 rootProject.name = "pipeline-project"
 
+include("bom:pipeline-bom")
 include("grpc-stubs")
 include("test-app")
 include("libraries:data-util")
-include("bom:pipeline-bom")
+include("libraries:pipeline-api")
+include("libraries:pipeline-commons")
