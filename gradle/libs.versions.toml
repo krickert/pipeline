@@ -2,9 +2,11 @@
 quarkus = "3.24.3"
 assertj = "3.27.3"
 jimfs = "1.3.0"
+testcontainers = "1.21.3"
 
 [libraries]
 quarkus-bom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus" }
+testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testcontainers" }
 # https://mvnrepository.com/artifact/org.assertj/assertj-core
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 # https://mvnrepository.com/artifact/com.google.jimfs/jimfs

@@ -17,12 +17,12 @@ This document outlines the migration plan from the current multi-module structur
 | **Protocol Buffers (Resource JAR)** |
 | `/commons/protobuf` | Protocol Buffers | `/protobuf` | Resource JAR | 🔴 Not Started | P0 | Just .proto files as resources |
 | **Libraries (All Quarkus-based)** |
-| `/commons/interface` | Common Interfaces | `/libraries/pipeline-api` | Library | 🔴 Not Started | P1 | Uses Jackson, validators |
-| `/commons/util` | Common Utilities | `/libraries/pipeline-commons` | Library | 🔴 Not Started | P1 | Uses Arc, Docker client |
-| `/commons/data-util` | Data Utilities | `/libraries/data-util` | Library | 🔴 Not Started | P2 | Check dependencies first |
+| `/commons/interface` | Common Interfaces | `/libraries/pipeline-api` | Library | 🟢 Completed | P1 | Uses Jackson, validators |
+| `/commons/util` | Common Utilities | `/libraries/pipeline-commons` | Library | 🟢 Completed | P1 | Uses Arc, Docker client |
+| `/commons/data-util` | Data Utilities | `/libraries/data-util` | Library | 🟢 Completed | P2 | Check dependencies first |
 | `/engine/consul` | Consul Integration | `/libraries/consul-client` | Library | 🔴 Not Started | P1 | Client functionality only |
 | `/engine/validators` | Validators | `/libraries/validators` | Library | 🟢 Completed | P2 | Validation services |
-| `/testing/util` | Testing Utilities | `/libraries/testing-commons` | Library | 🔴 Not Started | P0 | Test utilities |
+| `/testing/util` | Testing Utilities | `/libraries/testing-commons` | Library | 🟢 Completed | P0 | Test utilities |
 | `/testing/server-util` | Server Test Utils | `/libraries/testing-server-util` | Library | 🔴 Not Started | P2 | Quarkus test helpers |
 | **Extensions (Runtime/Deployment Split)** |
 | `/extensions/grpc-stubs/*` | gRPC Stubs Extension | `/extensions/grpc-stubs/*` | Extension | 🟢 Completed | P1 | Move as-is |
