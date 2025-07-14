@@ -32,6 +32,7 @@ public class UnifiedTestProfile implements QuarkusTestProfile {
         public boolean mockClusterService = false;
         public boolean failOnMissingConfig = false;
         public String testClassName = null;
+        public String configPrefix = "pipeline"; // Default prefix, can be overridden
         public Map<String, String> additionalConfig = new HashMap<>();
         
         // Fluent builder methods
@@ -72,6 +73,11 @@ public class UnifiedTestProfile implements QuarkusTestProfile {
         
         public TestConfiguration withConfig(String key, String value) {
             this.additionalConfig.put(key, value);
+            return this;
+        }
+        
+        public TestConfiguration withConfigPrefix(String prefix) {
+            this.configPrefix = prefix;
             return this;
         }
     }
@@ -122,12 +128,13 @@ public class UnifiedTestProfile implements QuarkusTestProfile {
             if (className.contains("Simple") || className.equals("ConsulConfigSourceSimpleTest")) {
                 // SimpleConfigTestProfile behavior
                 config.consulConfigEnabled = false;
-                config.additionalConfig.put("rokkon.engine.grpc-port", "49000");
-                config.additionalConfig.put("rokkon.engine.rest-port", "8080");
-                config.additionalConfig.put("rokkon.consul.cleanup.enabled", "true");
-                config.additionalConfig.put("rokkon.consul.cleanup.interval", "5m");
-                config.additionalConfig.put("rokkon.modules.service-prefix", "module-");
-                config.additionalConfig.put("rokkon.default-cluster.name", "default");
+                // Use pipeline prefix
+                config.additionalConfig.put("pipeline.engine.grpc-port", "49000");
+                config.additionalConfig.put("pipeline.engine.rest-port", "8080");
+                config.additionalConfig.put("pipeline.consul.cleanup.enabled", "true");
+                config.additionalConfig.put("pipeline.consul.cleanup.interval", "5m");
+                config.additionalConfig.put("pipeline.modules.service-prefix", "module-");
+                config.additionalConfig.put("pipeline.default-cluster.name", "default");
             } else if (className.contains("FailOnMissing")) {
                 // FailOnMissingProfile behavior
                 config.withFailOnMissingConfig();
@@ -157,14 +164,12 @@ public class UnifiedTestProfile implements QuarkusTestProfile {
         
         Map<String, String> overrides = new HashMap<>();
         
-        // ALWAYS disable consul by default - must be explicitly enabled
-        overrides.put("quarkus.consul.enabled", "false");
+        // ALWAYS disable consul-config by default - must be explicitly enabled
         overrides.put("quarkus.consul-config.enabled", "false");
-        overrides.put("quarkus.consul.devservices.enabled", "false");
         overrides.put("quarkus.devservices.enabled", "false");
         
         // Base configuration
-        overrides.put("rokkon.cluster.name", "unit-test-cluster");
+        overrides.put(config.configPrefix + ".cluster.name", "unit-test-cluster");
         
         // Determine KV prefix based on test type to isolate tests
         String kvPrefix = "test";
@@ -188,12 +193,10 @@ public class UnifiedTestProfile implements QuarkusTestProfile {
                 kvPrefix = "test/" + config.testClassName;
             }
         }
-        overrides.put("pipeline.consul.kv-prefix", kvPrefix);
+        overrides.put(config.configPrefix + ".consul.kv-prefix", kvPrefix);
         
         // Apply configuration based on current test needs
-        overrides.put("quarkus.consul.enabled", String.valueOf(config.consulEnabled));
         overrides.put("quarkus.consul-config.enabled", String.valueOf(config.consulConfigEnabled));
-        overrides.put("quarkus.health.extensions.enabled", String.valueOf(config.healthEnabled));
         overrides.put("quarkus.scheduler.enabled", String.valueOf(config.schedulerEnabled));
         
         // Validators

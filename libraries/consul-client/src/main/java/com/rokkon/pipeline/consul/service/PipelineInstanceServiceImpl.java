@@ -14,7 +14,7 @@ import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.ext.consul.ConsulClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import com.rokkon.pipeline.consul.config.PipelineConsulConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,11 +30,11 @@ public class PipelineInstanceServiceImpl implements PipelineInstanceService {
 
     private static final Logger LOG = LoggerFactory.getLogger(PipelineInstanceServiceImpl.class);
 
-    @ConfigProperty(name = "pipeline.consul.kv-prefix", defaultValue = "pipeline")
-    String kvPrefix;
+    @Inject
+    PipelineConsulConfig config;
 
-   @Inject
-   ConsulClient consulClient;
+    @Inject
+    ConsulClient consulClient;
 
     @Inject
     ObjectMapper objectMapper;
@@ -51,7 +51,7 @@ public class PipelineInstanceServiceImpl implements PipelineInstanceService {
 
     @Override
     public Uni<List<PipelineInstance>> listInstances(String clusterName) {
-        String prefix = kvPrefix + "/pipelines/instances/" + clusterName + "/";
+        String prefix = config.consul().kvPrefix() + "/pipelines/instances/" + clusterName + "/";
         return consulClient.getKeys(prefix)
             .flatMap(keys -> {
                 if (keys == null || keys.isEmpty()) {
@@ -90,7 +90,7 @@ public class PipelineInstanceServiceImpl implements PipelineInstanceService {
 
     @Override
     public Uni<PipelineInstance> getInstance(String clusterName, String instanceId) {
-        String key = kvPrefix + "/pipelines/instances/" + clusterName + "/" + instanceId;
+        String key = config.consul().kvPrefix() + "/pipelines/instances/" + clusterName + "/" + instanceId;
         return consulClient.getValue(key)
             .map(keyValue -> {
                 if (keyValue != null && keyValue.getValue() != null) {
@@ -152,7 +152,7 @@ public class PipelineInstanceServiceImpl implements PipelineInstanceService {
 
                 try {
                     // Store in Consul
-                    String key = kvPrefix + "/pipelines/instances/" + clusterName + "/" + request.instanceId();
+                    String key = config.consul().kvPrefix() + "/pipelines/instances/" + clusterName + "/" + request.instanceId();
                     String json = objectMapper.writeValueAsString(instance);
 
                     return consulClient.putValue(key, json)
@@ -203,7 +203,7 @@ public class PipelineInstanceServiceImpl implements PipelineInstanceService {
 
                 try {
                     // Store in Consul
-                    String key = kvPrefix + "/pipelines/instances/" + clusterName + "/" + instanceId;
+                    String key = config.consul().kvPrefix() + "/pipelines/instances/" + clusterName + "/" + instanceId;
                     String json = objectMapper.writeValueAsString(updated);
 
                     return consulClient.putValue(key, json)
@@ -239,7 +239,7 @@ public class PipelineInstanceServiceImpl implements PipelineInstanceService {
                 }
 
                 // Delete from Consul
-                String key = kvPrefix + "/pipelines/instances/" + clusterName + "/" + instanceId;
+                String key = config.consul().kvPrefix() + "/pipelines/instances/" + clusterName + "/" + instanceId;
 
                 return consulClient.deleteValue(key)
                     .map(result -> {
@@ -286,7 +286,7 @@ public class PipelineInstanceServiceImpl implements PipelineInstanceService {
 
                 try {
                     // Store in Consul
-                    String key = kvPrefix + "/pipelines/instances/" + clusterName + "/" + instanceId;
+                    String key = config.consul().kvPrefix() + "/pipelines/instances/" + clusterName + "/" + instanceId;
                     String json = objectMapper.writeValueAsString(updated);
 
                     return consulClient.putValue(key, json)
@@ -344,7 +344,7 @@ public class PipelineInstanceServiceImpl implements PipelineInstanceService {
 
                 try {
                     // Store in Consul
-                    String key = kvPrefix + "/pipelines/instances/" + clusterName + "/" + instanceId;
+                    String key = config.consul().kvPrefix() + "/pipelines/instances/" + clusterName + "/" + instanceId;
                     String json = objectMapper.writeValueAsString(updated);
 
                     return consulClient.putValue(key, json)
@@ -371,7 +371,7 @@ public class PipelineInstanceServiceImpl implements PipelineInstanceService {
 
     @Override
     public Uni<Boolean> instanceExists(String clusterName, String instanceId) {
-        String key = kvPrefix + "/pipelines/instances/" + clusterName + "/" + instanceId;
+        String key = config.consul().kvPrefix() + "/pipelines/instances/" + clusterName + "/" + instanceId;
         return consulClient.getValue(key)
             .map(keyValue -> keyValue != null && keyValue.getValue() != null)
             .onFailure().recoverWithItem(error -> {
@@ -385,7 +385,7 @@ public class PipelineInstanceServiceImpl implements PipelineInstanceService {
         // Note: This lists all instances across all clusters and then filters.
         // This could be inefficient with a very large number of clusters/instances.
         // A more optimized approach might involve a different key structure in Consul if performance becomes an issue.
-        return consulClient.getKeys(kvPrefix + "/pipelines/instances/")
+        return consulClient.getKeys(config.consul().kvPrefix() + "/pipelines/instances/")
             .flatMap(keys -> {
                 if (keys == null || keys.isEmpty()) {
                     return Uni.createFrom().item(Collections.<PipelineInstance>emptyList());

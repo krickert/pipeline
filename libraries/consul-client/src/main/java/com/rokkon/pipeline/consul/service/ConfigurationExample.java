@@ -40,7 +40,7 @@ public class ConfigurationExample {
      * The interval comes from Consul config.
      * Note: Quarkus doesn't support dynamic enable/disable, so we check it in the method.
      */
-    @Scheduled(every = "{rokkon.consul.cleanup.interval}")
+    @Scheduled(every = "{pipeline.consul.cleanup.interval}")
     void scheduledCleanup() {
         if (!config.consul().cleanup().enabled()) {
             return;

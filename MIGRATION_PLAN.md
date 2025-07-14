@@ -20,7 +20,7 @@ This document outlines the migration plan from the current multi-module structur
 | `/commons/interface` | Common Interfaces | `/libraries/pipeline-api` | Library | 🟢 Completed | P1 | Uses Jackson, validators |
 | `/commons/util` | Common Utilities | `/libraries/pipeline-commons` | Library | 🟢 Completed | P1 | Uses Arc, Docker client |
 | `/commons/data-util` | Data Utilities | `/libraries/data-util` | Library | 🟢 Completed | P2 | Check dependencies first |
-| `/engine/consul` | Consul Integration | `/libraries/consul-client` | Library | 🔴 Not Started | P1 | Client functionality only |
+| `/engine/consul` | Consul Integration | `/libraries/consul-client` | Library | 🟡 In Progress | P1 | Config mapping done, 1 test failing |
 | `/engine/validators` | Validators | `/libraries/validators` | Library | 🟢 Completed | P2 | Validation services |
 | `/testing/util` | Testing Utilities | `/libraries/testing-commons` | Library | 🟢 Completed | P0 | Test utilities |
 | `/testing/server-util` | Server Test Utils | `/libraries/testing-server-util` | Library | 🟢 Completed | P2 | Docker client injection fixed |
@@ -161,26 +161,29 @@ graph TB
 
 ## Migration Progress Summary
 
-### Overall Progress: ~35% Complete
+### Overall Progress: ~45% Complete
 
 | Phase | Status | Progress | Details |
 |-------|--------|----------|---------|
 | Phase 1: Foundation | 🟢 Complete | 100% | All BOMs consolidated, proto files in grpc-stubs |
-| Phase 2: Libraries | 🟡 In Progress | 85% | Only consul-client remaining |
+| Phase 2: Libraries | 🟡 In Progress | 95% | consul-client nearly complete (53/54 tests) |
 | Phase 3: Extensions | 🔴 Not Started | 25% | grpc-stubs done as library, 3 extensions remaining |
 | Phase 4: Core Application | 🔴 Not Started | 0% | Pipeline engine not migrated |
 | Phase 5: Modules & CLI | 🔴 Not Started | 0% | No modules or CLI apps migrated |
 | Phase 6: Testing & Cleanup | 🔴 Not Started | 0% | Integration tests pending |
 
 ### Test Status
-- ✅ All migrated components have passing tests
+- ✅ Most migrated components have passing tests (53/54 in consul-client)
 - ✅ No duplicate keys or conflicts
 - ✅ Build successful for all migrated modules
 - ✅ Docker client injection working in testing-server-util
+- ✅ Jandex indexing fixed for validators and pipeline-api
+- ✅ Configuration mapping implemented for pipeline properties
+- 🟡 1 test failing due to JSON schema validation issue
 
 ### Next Priority Actions
 1. **P1 - High Priority**:
-   - Migrate `consul-client` library (last remaining library)
+   - Fix remaining test failure in `consul-client` (JSON schema validation)
    - Start migrating `dynamic-grpc` extension
    - Begin `pipeline-engine` application migration
 
@@ -198,10 +201,10 @@ graph TB
 4. Configure version catalog ✅
 5. ~~Create protobuf resource JAR~~ Proto files in grpc-stubs ✅
 
-### Phase 2: Libraries (Week 1-2) 🟡 85% Complete
+### Phase 2: Libraries (Week 1-2) 🟡 95% Complete
 1. Migrate pipeline-api (from commons/interface) ✅
 2. Migrate pipeline-commons (from commons/util) ✅
-3. Create consul-client library (from engine/consul) 🔴
+3. Create consul-client library (from engine/consul) 🟡 (53 of 54 tests passing)
 4. Migrate testing-commons and other libraries ✅
    - testing-commons ✅
    - data-util ✅
@@ -237,8 +240,10 @@ graph TB
 2. **Clean Multi-Module Structure**: Converted from composite builds to regular subprojects
 3. **No Split Package Issues**: Resolved by excluding Google proto packages from grpc-stubs JAR
 4. **Docker Client Injection**: Created CDI producer for proper injection in testing-server-util
-5. **All Tests Passing**: No duplicate keys or conflicts in migrated modules
-6. **Proto Files Management**: Successfully integrated proto files into grpc-stubs library
+5. **Jandex Indexing**: Fixed missing indexes for validators and pipeline-api libraries
+6. **Config Mapping**: Created proper configuration interfaces for pipeline properties
+7. **Consul Client Migration**: 98% complete (53/54 tests passing)
+8. **Proto Files Management**: Successfully integrated proto files into grpc-stubs library
 
 ## Lessons Learned
 
@@ -246,6 +251,9 @@ graph TB
 2. **Dependency Scoping**: Changed from `api` to `implementation` for better encapsulation
 3. **Docker-Java Version**: Must align with version managed by Quarkus BOM (3.4.2)
 4. **Build Structure**: Regular multi-module builds simpler than composite builds for this project
+5. **Jandex Indexing**: Libraries need explicit Jandex plugin configuration for CDI bean discovery
+6. **Configuration Mapping**: Use `@ConfigMapping` interfaces instead of individual `@ConfigProperty` annotations
+7. **Test Configuration**: Provide test-specific application.yml to avoid config validation failures
 
 ## Key Decisions
 

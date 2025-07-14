@@ -1,0 +1,14 @@
+name: "Pipeline Consul DevServices"
+metadata:
+  keywords:
+    - "consul"
+    - "devservices"
+    - "configuration"
+    - "service-discovery"
+    - "pipeline"
+  categories:
+    - "cloud"
+    - "configuration"
+  status: "stable"
+  guide: "https://github.com/pipeline/consul-devservices"
+description: "Automatically starts a Consul container for development and testing of Pipeline applications"

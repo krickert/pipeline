@@ -48,9 +48,8 @@ dependencies {
     implementation("io.quarkus:quarkus-smallrye-openapi")
 
     // Additional Quarkus dependencies
-    implementation("io.quarkus:quarkus-resteasy")
-    implementation("io.quarkus:quarkus-resteasy-jackson")
-    implementation("io.quarkus:quarkus-resteasy-mutiny")
+    implementation("io.quarkus:quarkus-rest")
+    implementation("io.quarkus:quarkus-rest-jackson")
     implementation("io.quarkus:quarkus-smallrye-context-propagation")
 
     // Integration test dependencies

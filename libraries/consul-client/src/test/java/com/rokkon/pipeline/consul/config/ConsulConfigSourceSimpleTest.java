@@ -31,22 +31,22 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ConsulConfigSourceSimpleTest {
 
     // Test individual properties to verify they're loaded
-    @ConfigProperty(name = "rokkon.engine.grpc-port")
+    @ConfigProperty(name = "pipeline.engine.grpc-port")
     int grpcPort;
 
-    @ConfigProperty(name = "rokkon.engine.rest-port")
+    @ConfigProperty(name = "pipeline.engine.rest-port")
     int restPort;
 
-    @ConfigProperty(name = "rokkon.consul.cleanup.enabled")
+    @ConfigProperty(name = "pipeline.consul.cleanup.enabled")
     boolean cleanupEnabled;
 
-    @ConfigProperty(name = "rokkon.consul.cleanup.interval")
+    @ConfigProperty(name = "pipeline.consul.cleanup.interval")
     Duration cleanupInterval;
 
-    @ConfigProperty(name = "rokkon.modules.service-prefix")
+    @ConfigProperty(name = "pipeline.modules.service-prefix")
     String servicePrefix;
 
-    @ConfigProperty(name = "rokkon.default-cluster.name")
+    @ConfigProperty(name = "pipeline.default-cluster.name")
     String defaultClusterName;
 
     @Test

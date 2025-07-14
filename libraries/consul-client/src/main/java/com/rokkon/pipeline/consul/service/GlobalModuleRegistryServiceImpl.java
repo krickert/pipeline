@@ -23,6 +23,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
+import com.rokkon.pipeline.consul.config.PipelineConsulConfig;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
@@ -50,8 +51,11 @@ public class GlobalModuleRegistryServiceImpl implements GlobalModuleRegistryServ
 
     private static final Logger LOG = Logger.getLogger(GlobalModuleRegistryServiceImpl.class);
 
-    @ConfigProperty(name = "pipeline.consul.kv-prefix", defaultValue = "pipeline")
-    String kvPrefix;
+    @Inject
+    PipelineConsulConfig config;
+    
+    @ConfigProperty(name = "pipeline.consul.cleanup.interval", defaultValue = "30m")
+    String cleanupInterval;
 
     @Inject
     ConsulClient consulClient;
@@ -65,13 +69,35 @@ public class GlobalModuleRegistryServiceImpl implements GlobalModuleRegistryServ
     @Inject
     HealthCheckConfigProvider healthConfig;
 
-    private final JsonSchemaFactory schemaFactory = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V7);
+    private JsonSchemaFactory schemaFactory;
 
     /**
      * Default constructor for CDI.
      */
     public GlobalModuleRegistryServiceImpl() {
         // Default constructor for CDI
+    }
+    
+    /**
+     * Get the JsonSchemaFactory instance (lazy initialization).
+     */
+    private JsonSchemaFactory getSchemaFactory() {
+        if (schemaFactory == null) {
+            try {
+                LOG.debug("Initializing JsonSchemaFactory for V7");
+                schemaFactory = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V7);
+                LOG.debug("JsonSchemaFactory initialized successfully");
+            } catch (Exception e) {
+                LOG.error("Failed to initialize JsonSchemaFactory: " + e.getMessage(), e);
+                // Log the full stack trace
+                if (e.getCause() != null) {
+                    LOG.error("Caused by: " + e.getCause().getMessage(), e.getCause());
+                }
+                // Return a null object pattern or throw a more specific exception
+                throw new RuntimeException("Failed to initialize JSON Schema validator: " + e.getMessage(), e);
+            }
+        }
+        return schemaFactory;
     }
 
     /**
@@ -275,7 +301,7 @@ public class GlobalModuleRegistryServiceImpl implements GlobalModuleRegistryServ
     @CacheResult(cacheName = "global-modules-list")
     @SuppressWarnings("unchecked")
     public Uni<Set<ModuleRegistration>> listRegisteredModules() {
-        String prefix = kvPrefix + "/modules/global/";
+        String prefix = config.consul().kvPrefix() + "/modules/global/";
         return consulClient.getKeys(prefix)
             .onItem().transformToUni(keys -> {
                 if (keys == null || keys.isEmpty()) {
@@ -540,7 +566,7 @@ public class GlobalModuleRegistryServiceImpl implements GlobalModuleRegistryServ
     }
 
     private String buildModuleKvKey(String moduleId) {
-        return kvPrefix + "/modules/global/" + moduleId;
+        return config.consul().kvPrefix() + "/modules/global/" + moduleId;
     }
 
 
@@ -601,7 +627,7 @@ public class GlobalModuleRegistryServiceImpl implements GlobalModuleRegistryServ
 
             // Store in archive namespace
             String archiveKey = String.format("%s/services/%s-%s", 
-                kvPrefix + "/archive", serviceName, timestamp.replace(":", "-").replace(".", "-"));
+                config.consul().kvPrefix() + "/archive", serviceName, timestamp.replace(":", "-").replace(".", "-"));
 
             return consulClient.putValue(archiveKey, archiveJson)
             .onItem().transformToUni(success -> {
@@ -648,7 +674,7 @@ public class GlobalModuleRegistryServiceImpl implements GlobalModuleRegistryServ
         );
 
         String archiveKey = String.format("%s/services/%s-%s", 
-            kvPrefix + "/archive", serviceName, timestamp.replace(":", "-").replace(".", "-"));
+            config.consul().kvPrefix() + "/archive", serviceName, timestamp.replace(":", "-").replace(".", "-"));
 
         return consulClient.putValue(archiveKey, archiveJson)
         .onItem().transform(success -> {
@@ -688,7 +714,7 @@ public class GlobalModuleRegistryServiceImpl implements GlobalModuleRegistryServ
         try {
             JsonNode schemaNode = objectMapper.readTree(schemaContent);
             // Attempt to create a JsonSchema - this validates it's proper JSON Schema v7
-            JsonSchema schema = schemaFactory.getSchema(schemaNode);
+            JsonSchema schema = getSchemaFactory().getSchema(schemaNode);
             return true;
         } catch (Exception e) {
             LOG.errorf("Invalid JSON Schema v7: %s", e.getMessage());

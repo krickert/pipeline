@@ -17,6 +17,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
+import com.rokkon.pipeline.consul.config.PipelineConsulConfig;
+import com.rokkon.pipeline.consul.config.ConsulConfiguration;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
@@ -54,14 +56,11 @@ public class ConsulWatcher implements ConsulWatchService {
     @Inject
     Event<ConsulClusterPipelineChangedEvent> clusterPipelineChangedEvent;
 
-    @ConfigProperty(name = "pipeline.consul.watch.enabled", defaultValue = "true")
-    boolean watchEnabled;
+    @Inject
+    PipelineConsulConfig pipelineConfig;
 
-    @ConfigProperty(name = "consul.kv.prefix")
-    Optional<String> kvPrefixOverride;
-
-    @ConfigProperty(name = "pipeline.cluster.name", defaultValue = "default")
-    String clusterName;
+    @Inject
+    ConsulConfiguration consulConfig;
 
     @ConfigProperty(name = "quarkus.application.name")
     String applicationName;
@@ -82,7 +81,7 @@ public class ConsulWatcher implements ConsulWatchService {
      * Start watching Consul on startup (after initialization completes)
      */
     void onStart(@Observes StartupEvent ev) {
-        if (!watchEnabled) {
+        if (!pipelineConfig.consul().watch().enabled()) {
             LOG.info("Consul watching disabled");
             return;
         }
@@ -128,8 +127,8 @@ public class ConsulWatcher implements ConsulWatchService {
             .setPort(port)
             .setTimeout(10000);
 
-        // Use kvPrefixOverride if provided, otherwise use applicationName
-        String appPrefix = kvPrefixOverride.orElse(applicationName);
+        // Use consul config prefix if provided, otherwise use applicationName
+        String appPrefix = consulConfig.kv().prefix();
 
         LOG.infof("Consul watch configuration - host: %s, port: %d, prefix: %s", host, port, appPrefix);
 
@@ -163,7 +162,7 @@ public class ConsulWatcher implements ConsulWatchService {
 
         // Watch cluster pipelines
         String clusterPrefix = PipelineConstants.buildConsulKey(appPrefix,
-            PipelineConstants.CONSUL_CLUSTERS_KEY, clusterName, PipelineConstants.CONSUL_PIPELINES_KEY);
+            PipelineConstants.CONSUL_CLUSTERS_KEY, pipelineConfig.cluster().name(), PipelineConstants.CONSUL_PIPELINES_KEY);
         Watch<KeyValueList> clusterWatch = Watch.keyPrefix(clusterPrefix, vertx, options);
         clusterWatch.setHandler(result -> {
             if (result.succeeded()) {
@@ -308,7 +307,7 @@ public class ConsulWatcher implements ConsulWatchService {
             if (parts.length >= 6) {
                 String pipelineId = parts[5];
                 clusterPipelineChangedEvent.fire(
-                        new ConsulClusterPipelineChangedEvent(clusterName, pipelineId, kv.getValue())
+                        new ConsulClusterPipelineChangedEvent(pipelineConfig.cluster().name(), pipelineId, kv.getValue())
                 );
             }
         });
