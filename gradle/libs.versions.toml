@@ -1,70 +1,9 @@
 [versions]
-# Core versions
 quarkus = "3.24.3"
-quarkus-plugin = "3.24.3"
-
-# Additional versions not managed by Quarkus BOM
-consul-client = "1.6.0"
-
-# These are managed by Quarkus BOM but listed here for reference
-# grpc, protobuf, junit, assertj, testcontainers, rest-assured, jackson, etc. 
-# are all managed by the Quarkus BOM
 
 [libraries]
-# Quarkus Platform
 quarkus-bom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus" }
-quarkus-gradle-plugin = { module = "io.quarkus:quarkus-gradle-plugin", version.ref = "quarkus-plugin" }
-
-# Quarkus Core
-quarkus-core = { module = "io.quarkus:quarkus-core" }
-quarkus-arc = { module = "io.quarkus:quarkus-arc" }
-quarkus-config-yaml = { module = "io.quarkus:quarkus-config-yaml" }
-
-# Quarkus Extensions
-quarkus-grpc = { module = "io.quarkus:quarkus-grpc" }
-quarkus-rest = { module = "io.quarkus:quarkus-rest" }
-quarkus-rest-jackson = { module = "io.quarkus:quarkus-rest-jackson" }
-quarkus-hibernate-validator = { module = "io.quarkus:quarkus-hibernate-validator" }
-quarkus-smallrye-health = { module = "io.quarkus:quarkus-smallrye-health" }
-quarkus-micrometer = { module = "io.quarkus:quarkus-micrometer" }
-quarkus-container-image-docker = { module = "io.quarkus:quarkus-container-image-docker" }
-quarkus-picocli = { module = "io.quarkus:quarkus-picocli" }
-
-# gRPC & Protobuf - versions managed by Quarkus BOM
-grpc-netty = { module = "io.grpc:grpc-netty" }
-grpc-protobuf = { module = "io.grpc:grpc-protobuf" }
-grpc-stub = { module = "io.grpc:grpc-stub" }
-grpc-services = { module = "io.grpc:grpc-services" }
-protobuf-java = { module = "com.google.protobuf:protobuf-java" }
-protobuf-java-util = { module = "com.google.protobuf:protobuf-java-util" }
-
-# Consul
-consul-client = { module = "com.orbitz.consul:consul-client", version.ref = "consul-client" }
-
-# Utilities - versions managed by Quarkus BOM
-jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind" }
-jackson-dataformat-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml" }
-commons-lang3 = { module = "org.apache.commons:commons-lang3" }
-commons-io = { module = "commons-io:commons-io" }
-guava = { module = "com.google.guava:guava" }
-
-# Testing - versions managed by Quarkus BOM
-quarkus-junit5 = { module = "io.quarkus:quarkus-junit5" }
-quarkus-junit5-mockito = { module = "io.quarkus:quarkus-junit5-mockito" }
-quarkus-test-common = { module = "io.quarkus:quarkus-test-common" }
-junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
-assertj-core = { module = "org.assertj:assertj-core" }
-rest-assured = { module = "io.rest-assured:rest-assured" }
-testcontainers = { module = "org.testcontainers:testcontainers" }
-testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter" }
-
-# Logging - versions managed by Quarkus BOM
-slf4j-api = { module = "org.slf4j:slf4j-api" }
-
-[bundles]
-# Common test dependencies
-testing = ["quarkus-junit5", "junit-jupiter", "assertj-core", "rest-assured"]
-grpc-common = ["grpc-protobuf", "grpc-stub", "grpc-services", "protobuf-java"]
 
 [plugins]
-quarkus = { id = "io.quarkus", version.ref = "quarkus-plugin" }
+quarkus = { id = "io.quarkus", version.ref = "quarkus" }
+quarkus-extension = { id = "io.quarkus.extension", version.ref = "quarkus" }

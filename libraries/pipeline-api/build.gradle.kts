@@ -1,7 +1,6 @@
 plugins {
-    java
+    `java-library`
     id("io.quarkus")
-    `maven-publish`
 }
 
 repositories {
@@ -17,9 +16,11 @@ group = "com.pipeline"
 version = "1.0.0-SNAPSHOT"
 
 dependencies {
-    implementation("io.quarkus:quarkus-smallrye-stork")
-    // Quarkus BOM
+    // Quarkus BOM (applies to all configurations)
     implementation(platform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
+    testImplementation(platform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
+    
+    implementation("io.quarkus:quarkus-smallrye-stork")
     
     // Quarkus dependencies
     implementation("io.quarkus:quarkus-jackson")
@@ -37,7 +38,8 @@ dependencies {
     // Testing
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("org.assertj:assertj-core")
+    testImplementation("org.assertj:assertj-core:3.26.3")
+    testImplementation("io.rest-assured:rest-assured")
     testImplementation("com.google.jimfs:jimfs:1.3.0")
 }
 
@@ -55,15 +57,3 @@ tasks.withType<Test> {
     systemProperty("java.util.logging.manager", "org.jboss.logmanager.LogManager")
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["java"])
-            
-            pom {
-                name.set("Pipeline API")
-                description.set("Core API interfaces and models for the Pipeline project")
-            }
-        }
-    }
-}
