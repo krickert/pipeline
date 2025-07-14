@@ -16,7 +16,7 @@ dependencies {
     // Quarkus extensions
     implementation("io.quarkiverse.config:quarkus-config-consul")
     implementation("io.quarkus:quarkus-hibernate-validator")
-    implementation("io.quarkus:quarkus-rest-jackson")
+    //implementation("io.quarkus:quarkus-rest-jackson")
     implementation("io.quarkus:quarkus-scheduler")
     implementation("io.quarkus:quarkus-cache")
 
@@ -40,6 +40,35 @@ dependencies {
     implementation("com.networknt:json-schema-validator:1.5.8")
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testImplementation("org.mockito:mockito-core:5.3.1")
+    testImplementation("org.mockito:mockito-junit-jupiter:5.3.1")
+    testImplementation("io.quarkus:quarkus-junit5-mockito")
+
+    // MicroProfile OpenAPI
+    implementation("io.quarkus:quarkus-smallrye-openapi")
+
+    // Additional Quarkus dependencies
+    implementation("io.quarkus:quarkus-resteasy")
+    implementation("io.quarkus:quarkus-resteasy-jackson")
+    implementation("io.quarkus:quarkus-resteasy-mutiny")
+    implementation("io.quarkus:quarkus-smallrye-context-propagation")
+
+    // Integration test dependencies
+    integrationTestImplementation(project(":libraries:testing-commons"))
+    integrationTestImplementation("io.quarkus:quarkus-junit5")
+    integrationTestImplementation("io.rest-assured:rest-assured")
+    integrationTestImplementation("org.awaitility:awaitility")
+    integrationTestImplementation("org.junit.jupiter:junit-jupiter-api")
+    integrationTestImplementation("io.quarkus:quarkus-test-common")
+    integrationTestImplementation("io.quarkus:quarkus-vertx")
+    integrationTestImplementation("io.quarkus:quarkus-vertx-http")
+    integrationTestImplementation("io.smallrye.reactive:smallrye-mutiny-vertx-consul-client")
+    integrationTestImplementation("org.testcontainers:testcontainers")
+    integrationTestImplementation("org.testcontainers:consul")
+    integrationTestImplementation("org.mockito:mockito-core:5.3.1")
+    integrationTestImplementation("com.fasterxml.jackson.core:jackson-databind")
+    integrationTestImplementation("org.jboss.logging:jboss-logging")
+    integrationTestImplementation("io.quarkus:quarkus-core")
 
 
 

@@ -1,6 +1,7 @@
 plugins {
     `java-library`
     id("io.quarkus")
+    id("org.kordamp.gradle.jandex") version "1.1.0"
 }
 
 group = "com.pipeline"
@@ -24,5 +25,9 @@ dependencies {
 
 tasks.named("compileJava") {
     dependsOn(tasks.named("compileQuarkusGeneratedSourcesJava"))
+}
+
+tasks.named("compileTestJava") {
+    dependsOn(tasks.named("jandex"))
 }
 
